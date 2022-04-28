@@ -1,0 +1,17 @@
+###################################################################### 
+highlight specifies the syntax highlighting style. 
+
+Supported styles include 
+"default", "tango", "pygments", "kate", "monochrome", "espresso",  "zenburn", and "haddock". 
+
+Pass null to prevent syntax highlighting.
+
+---
+title: "Habits"
+output:
+  pdf_document:
+    highlight: tango
+---
+
+######################################################################
+

@@ -1,0 +1,17 @@
+# installing package (say parskip)
+> tlmgr install parskip
+
+# chekcing if alreay package is installed (say checking for babel package)
+# check for styles files
+> kpsewhich babel.sty
+# for multiple checking
+> kpsewhich babel.sty geometry.sty setspace.sty
+
+# bare installing is time consuming for tlmgr default option
+# so use --no-persistent-downloads option when installing
+# and it will be damn faster than before.
+
+> tlmgr install blindtext --no-persistent-downloads
+
+# getting help file for a package (say geometry)
+> texdoc geometry
