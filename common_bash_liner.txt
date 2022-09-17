@@ -44,3 +44,11 @@ $ vim filename.txt
 # be careful about not to put space between ext1 and ext2 except comma
 
 > touch chap01.{R,txt}
+
+## copy multiple files with specific pattern
+
+> cp *lang_en.srt ..
+
+or
+
+> find -regex *lang_en.srt -exec cp {} \;
