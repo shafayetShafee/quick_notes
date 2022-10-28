@@ -1,4 +1,4 @@
-# WSl Stuffs
+# WSL Stuffs
 
 ## How to add new user
 
