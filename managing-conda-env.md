@@ -60,3 +60,7 @@ To check the installed pacakges in a conda environment,
 ```
 (base) $ conda list -n env-name
 ```
+
+### Will the `prefix` field cause any problem when environment is created from the yaml file in a different platform?
+
+Ans: Short answer is **No**. For details see [here](https://stackoverflow.com/questions/41274007/anaconda-export-environment-file)
