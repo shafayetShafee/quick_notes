@@ -20,3 +20,26 @@
   ```
   git push
   ```
+
+- Deleting a branch locally and remotely
+
+  To delete a branch remotely, do the following from that branch,
+  
+  ```
+  git push -d origin branch_name
+  ```
+  
+  Now to delete the branch locally, at first checkout to main branch (if you are not already)
+  
+  ```
+  git checkout main
+  ```
+  
+  and then,
+  
+  ```
+  git branch -d branch_name
+  ```
+  
+  **And do not forget to do a git pull when switched to main if you pushed that deleted local branch to remote and merged to remote main branch.**
+  
