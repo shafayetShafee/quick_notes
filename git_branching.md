@@ -43,3 +43,9 @@
   
   **And do not forget to do a git pull when switched to main if you pushed that deleted local branch to remote and merged to remote main branch.**
   
+- To list all the available branch
+
+  ```
+  git branch
+  ```
+  
