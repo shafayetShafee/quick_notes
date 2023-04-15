@@ -7,3 +7,4 @@ Some notes regarding bash command, tlmgr (texlive manager) command etc.
 - [TexLive pkg manager commands](manging-tlmgr.md)
 - [Using WSL](wsl_stuff.md)
 - [Managing Environments with venv](activiting_virtualenv.md)
+- [Git Branching](git_branching.md)
