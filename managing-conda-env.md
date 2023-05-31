@@ -64,3 +64,11 @@ To check the installed pacakges in a conda environment,
 ### Will the `prefix` field cause any problem when environment is created from the yaml file in a different platform?
 
 Ans: Short answer is **No**. For details see [here](https://stackoverflow.com/questions/41274007/anaconda-export-environment-file)
+
+To create a new environment in a subdirectory of the current working directory called `envs`.
+
+```
+conda create --prefix ./envs jupyterlab=3.2 matplotlib=3.5 numpy=1.21
+```
+
+for details [see here](https://docs.conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html#specifying-a-location-for-an-environment).
