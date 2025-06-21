@@ -79,3 +79,97 @@ the last command made the file immutable, even for root. To make the file writab
 ```bash
 sudo chattr -i /home/john-doe/.ssh/authorized_keys
 ```
+
+
+## Creating User Group
+
+Its better to create a user group also, 
+
+```bash
+sudo groupadd dbt
+```
+
+and then add the new user to the group,
+
+```bash
+sudo usermod -aG dbt john-doe
+```
+
+check the groups for user `john-doe`
+
+```bash
+sudo groups john-doe
+```
+
+## Setting up SSH for a user
+
+run the following in VM
+
+```bash
+ssh-keygen -t ed25519 -C "your_email@example.com"
+```
+
+this will generate ssh key in the user home directory, i.e. `/home/john-doe/.ssh/`. 
+
+If you are using a legacy system that doesn't support the Ed25519 algorithm, use:
+
+```bash
+ssh-keygen -t rsa -b 4096 -C "your_email@example.com"
+```
+
+Now start the ssh agent in backgroud and add the ssh key to ssh agent,
+
+```bash
+eval "$(ssh-agent -s)"
+```
+
+```bash
+ssh-add ~/.ssh/id_ed25519
+```
+
+And add the content of `~/.ssh/id_ed25519.pub`  in Github.
+
+For details, see [here](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent?platform=linux)
+
+NOTE: The above steps make sure that only the user specifically can use ssh to maintain git connection with githeub, not others (NOT EVEN THE `root` user). It's because the ssh key resides into a specific home directory.
+
+
+## Setting up git repo in /opt directory
+
+`/opt` is standard on Linux systems for optional, third-party, or custom-installed software/projects. It’s outside user home directories — makes it feel like part of system-managed resources - which will be used across users or services (e.g., cron, dbt-user, systemd tasks, etc.) 
+
+Now at first git clone the repository in a user home directory for whom ssh setup is complete,
+
+```bash
+pwd 
+# output: /home/john-doe
+```
+
+```bash
+git clone git@github:shafayetShafee/<repo>
+```
+
+Then move the directory to `/opt/`, make `john-doe` owner of the director so that john-doe can do git-pull-push and change the file mode,
+
+```bash
+sudo mv dbt-demo-project /opt/
+sudo chown -R john-doe:dbt /opt/dbt-demo-project
+sudo chmod -R 2750 /opt/dbt-demo-project
+```
+
+- 2 in 2750 = setgid: ensures new files inherit the dbt group
+
+- 7 = owner: read/write/execute
+
+- 5 = group: read/execute
+
+- 0 = others: no access
+
+
+NOTE: `chmod -R 2750` will affect the git file tracking, since it changes the file mode. Hence git will consider all contents as git-modified. To tell git, not to set alarm for file mode change, run,
+
+```bash
+git config core.fileMode false
+```
+
+
