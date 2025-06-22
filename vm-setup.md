@@ -42,9 +42,40 @@ ssh-copy-id vm-name@vm-ip-address
 this will add the public key from your host machine to your VM ssh authorized_keys.
 
 
+## Set a static IP for VM
+
+Create a new yml file for netplan,
+
+```bash
+sudo vim /etc/netplan/99-static-ip.yaml
+```
+
+and add these,
+
+```yaml
+network:
+  version: 2
+  renderer: networkd
+  ethernets:
+    enp0s3:  # Replace with your actual interface name
+      dhcp4: no
+      addresses:
+        - 192.168.0.104/24
+      gateway4: 192.168.0.1
+      nameservers:
+        addresses: [8.8.8.8, 8.8.4.4]
+```
+
+then, save and apply,
+
+```bash
+sudo netplan apply
+```
+
+
 ## User Group Setup
 
-check the existing user on VM list using 
+check the existing user on VM list using
 
 ```bash 
 ls /home
@@ -172,4 +203,70 @@ NOTE: `chmod -R 2750` will affect the git file tracking, since it changes the fi
 git config core.fileMode false
 ```
 
+## Installing python uv in VM
 
+One easy way to install uv system-wide is by using `snap` in Debian.
+
+At first install snap,
+
+```bash
+sudo apt update
+sudo apt install snapd
+```
+
+After this, install the snapd snap in order to get the latest snapd:
+
+```bash
+sudo snap install snapd
+```
+
+then To install uv, simply use the following command,
+
+```bash
+sudo snap install astral-uv --classic
+```
+
+## Copying files to VM using SCP
+
+```bash
+scp -r from-directory john-doe@192.168.0.104:/to-directory/
+```
+
+
+## Setting up Cron Job
+
+check the list of cronjobs for current user
+
+```bash
+crontab -l
+```
+
+you can check the list of cronjobs of other user
+
+```bash
+sudo crontab -u john-doe -l
+```
+
+Before adding a command in cronjob, its better to everything in a bash file and make the bash file executable, which makes cronjob statment compact and cleaner.
+
+```bash
+chmod +x /path-to-bash-file.sh
+```
+
+Then to edit (add or modify) the current user cronjobs,
+
+```bash
+crontab -e
+```
+
+```bash
+sudo crontab -e -u john-doe
+```
+
+Add the following to run the bash file at every 20 mins,
+
+```bash
+*/20 * * * * /opt/project/run.sh >> /opt/project/logs/cron_$(date +\%F).log 2>&1
+```
+
+NOTE: In cronjobs `%` needs to escaped using `\`.
