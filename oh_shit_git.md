@@ -58,3 +58,30 @@ git tag v0.3.0
 git push --tags
 ```
 
+## I have a few stale refs (refs to deleted remote branches). How can I clean them?
+
+One way is to,
+
+```
+git remote prune origin --dry-run
+```
+
+This would show, which refs will be pruned if the command runs. If it is okay, then,
+
+```
+git remote prune origin
+```
+
+This will prune stale refs to origin.
+
+Another way of doing it,
+
+```
+git remote prune origin --dry-run
+```
+
+or set the global config,
+
+```
+git config --global fetch.prune true
+```
